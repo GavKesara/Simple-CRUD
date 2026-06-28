@@ -1,0 +1,1 @@
+A simple program used to track done lectures done in courses.
