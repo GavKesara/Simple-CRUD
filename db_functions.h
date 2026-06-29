@@ -25,9 +25,10 @@ int get_id (){
 
     arch = load_db("steamDB.txt","r");
     
-    if (arch == NULL)
+    if (arch == NULL){
         printf("Error loading file steamDB.txt");
         return 1; //program exit(1)
+    }
 
     int c = fgetc(arch);
     
@@ -40,14 +41,7 @@ int get_id (){
     char line[255];
     int last_id;
     
-    while(1){
-
-        if (feof(arch)){
-            break;
-        }
-
-        fgets(line,255,arch);
-        
+    while(fgets(line,sizeof(line),arch)!=NULL){
         last_id = atoi(&line[0]);
     }
 

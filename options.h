@@ -43,9 +43,9 @@ int create(){
     fgets(course.name_lecturer,MAX_CHAR,stdin);
 
     if(new_id==0){
-        fprintf(arch,"%d | %s | %d | %s | %s ",new_id,course.name_university,course.year,course.name_course,course.name_lecturer);
+        fprintf(arch,"%d | %s | %d | %s | %s",new_id,course.name_university,course.year,course.name_course,course.name_lecturer);
     }else{
-        fprintf(arch,"%d | %s | %d | %s | %s ",new_id,course.name_university,course.year,course.name_course,course.name_lecturer);
+        fprintf(arch,"%d | %s | %d | %s | %s",new_id,course.name_university,course.year,course.name_course,course.name_lecturer);
     }
 
     fclose(arch);
@@ -79,21 +79,14 @@ int read(){
     if(option == -1){
         display_listing_all_courses();
 
-        while(1){
-            if(feof(arch)){
-                break;
-            }
-            fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
-            printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n",id,course.name_university,course.year,course.name_course,course.name_lecturer);
+        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer)==5){
+            fix_formatting(course.name_university);
+            fix_formatting(course.name_lecturer);
+
+            printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n\n",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
     }else{
-        while(1){
-            if(feof(arch)){
-                printf("The system couldn't find the id you provided.\n");
-                break;
-            }
-
-            fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer)==5){
 
             if(id==option){
                 display_course(option);
@@ -141,9 +134,11 @@ int update(){
 
     display_update(option);
 
-    while(fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer)==5){
+    while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer)==5){
+        if(id==option)
             found_id=1;
             display_options();
+            printf("\n\n\nEnter number to modify : ");
             scanf("%d",&Usr_option);
             switch(Usr_option){
                 case 0: printf("Enter new name of course : ");
@@ -168,7 +163,6 @@ int update(){
             else
                 fprintf(temp,"\n%d | %s | %d | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
-    }
     fclose(arch);
     fclose(temp);
 
@@ -225,13 +219,7 @@ int del(){
 
     int found_id = 0;
 
-    while (1){
-
-        if(feof(arch)){
-            break;
-        }
-
-        fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+    while (fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer)==5){
         
         if(option == id){
             found_id = 1;
@@ -239,9 +227,9 @@ int del(){
         }
             
         if(id-found_id == 0)
-            fprintf(temp,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+            fprintf(temp,"%d | %s | %d | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         else
-            fprintf(temp,"\n%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+            fprintf(temp,"\n%d | %s | %d | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         
     }
 

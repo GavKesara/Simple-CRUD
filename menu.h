@@ -69,10 +69,12 @@ void display_update(int id){
 
 void display_options(){
     clear_terminal();
-    printf("Name of University - 0");
-    printf("Year of Course - 1");
-    printf("Name of Course - 2");
-    printf("Name of Lecturer - 3");
+    printf("+---------------------+\n");
+    printf("Name of University - 0\n");
+    printf("Year of Course - 1\n");
+    printf("Name of Course - 2\n");
+    printf("Name of Lecturer - 3\n");
+    printf("+---------------------+\n");
 }
 
 void display_delete(int id){

@@ -1,3 +1,3 @@
-1 | mit | 2006 | it | Ira
- 1 | uom | 2000 | ma | Ira
- 
+0 | uom  | 2010 | cs  | Ira poh 
+1 | mit  | 2006 | cs50  | Kesara 
+2 | berkeley  | 2006 | cs1013  | Prof. Ira poh 
