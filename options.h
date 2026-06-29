@@ -11,7 +11,6 @@ struct course{
     int year;
     char name_course[MAX_CHAR];
     char name_lecturer[MAX_CHAR];
-
 };
 
 typedef struct course courses;
@@ -79,7 +78,7 @@ int read(){
 
         while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer)==5){
 
-            printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n\n",id,course.name_university,course.year,course.name_course,course.name_lecturer);
+            printf("ID : %d\nName of Universty : %sYear of Course : %d\nName of Course : %sName of Lecturer : %s\n\n",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
     }else{
         while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer)==5){
