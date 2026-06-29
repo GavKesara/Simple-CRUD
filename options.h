@@ -27,7 +27,6 @@ int create(){
     setbuf(stdin,NULL);
     printf("Enter name of University: ");
     fgets(course.name_university,MAX_CHAR,stdin);
-    fix_formatting(course.name_university);
 
     setbuf(stdin,NULL);
     printf("Enter the year of the Course: ");
@@ -36,7 +35,6 @@ int create(){
     setbuf(stdin,NULL);
     printf("Enter name of the Course: ");
     fgets(course.name_course,MAX_CHAR,stdin);
-    fix_formatting(course.name_course);
 
     setbuf(stdin,NULL);
     printf("Enter name of lecturer: ");
@@ -80,8 +78,6 @@ int read(){
         display_listing_all_courses();
 
         while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer)==5){
-            fix_formatting(course.name_university);
-            fix_formatting(course.name_lecturer);
 
             printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n\n",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
@@ -143,18 +139,15 @@ int update(){
             switch(Usr_option){
                 case 0: printf("Enter new name of course : ");
                         fgets(course.name_university,MAX_CHAR,stdin);
-                        fix_formatting(course.name_university);
                         break;
                 case 1: printf("Enter new Course year : ");
                         scanf("%d",&course.year);
                         break;
                 case 2: printf("Enter new course name : ");
                         fgets(course.name_course,MAX_CHAR,stdin);
-                        fix_formatting(course.name_course);
                         break;
                 case 3: printf("Enter new lecturer name : ");
                         fgets(course.name_lecturer,MAX_CHAR,stdin);
-                        fix_formatting(course.name_lecturer);
                         break;
                 default: printf("Enter a correct value.");break;
             }
