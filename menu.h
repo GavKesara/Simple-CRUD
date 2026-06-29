@@ -66,3 +66,18 @@ void display_update(int id){
     printf("Updating Course with ID : %d\n",id);
     printf("-------------------\n");
 }
+
+void display_options(){
+    clear_terminal;
+    printf("Name of University - 0");
+    printf("Year of Course - 1");
+    printf("Name of Course - 2");
+    printf("Name of Lecturer - 3");
+}
+
+void display_delete(int id){
+    clear_terminal;
+    printf("--------------------\n");
+    printf("Deleting Course iwth ID : %d\n",id);
+    printf("--------------------\n");
+}

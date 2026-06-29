@@ -112,6 +112,7 @@ int update(){
     FILE *temp;
 
     int option,id,a,found_id=0;
+    int Usr_option;
 
     arch=load_db("steamDB.txt","r");
     temp=load_db("temp_______steamDB.txt","w");
@@ -140,6 +141,119 @@ int update(){
         fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
         if(option == id){
             found_id=1;
+            display_options();
+            scanf("%d",&Usr_option);
+            switch(Usr_option){
+                case 0:printf("Enter new name of course : ");fgets(&course.name_university,MAX_CHAR,stdin);fix_formatting(course.name_university);break;
+                case 1:printf("Enter new Course year : ");scanf(&course.year);break;
+                case 2:printf("Enter new course name : ");fgets(&course.name_course,MAX_CHAR,stdin);fix_formatting(course.name_course);break;
+                case 3:printf("Enter new lecturer name : ");fgets(&course.name_lecturer,MAX_CHAR,stdin);fix_formatting(course.name_lecturer);break;
+                default: printf("Enter a correct value.");break;
+            }
+            if(id == 0)
+                fprintf(temp,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+            else
+                fprintf(temp,"\n%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+            if(feof(arch))
+                break;
         }
     }
+    fclose(arch);
+    fclose(temp);
+
+    arch = load_db("steamDB.txt","w");
+    temp= load_db("temp_______steamDB.txt","r");
+
+    while(a=fgetc(temp)!=EOF){
+        fputc(a,arch);
+    }
+    
+    fclose(arch);
+    fclose(temp);
+
+    if(found_id){
+        printf("\nTask Concluded.");
+    }else{
+        printf("\nThe system couldn't find the id you provided.");
+    }
+    remove("temp_______steamDB.txt");
+    return 0;
+
+}
+
+int del(){
+    clear_terminal();
+    courses course;
+    FILE * arch;
+    FILE * temp;
+    
+    int option, id, a;
+
+    arch = load_db("steamDB.txt","r");
+    temp = load_db("temp____steamDB.txt","w");
+
+    if(arch == NULL){
+        printf("The file \"steamDB.txt\" does not exist!");
+        return 1;
+    }
+
+    if(fgetc(arch) == EOF){
+        printf("The file is empty.");
+        remove("temp____steamDB.txt");
+        return 1;
+    }
+
+    rewind(arch);
+
+    printf("Enter the item ID: ");
+    scanf("%d", &option);
+    setbuf(stdin, NULL);
+    fflush(stdin);
+
+    display_delete(option);
+
+    int found_id = 0;
+
+    while (1){
+
+        if(feof(arch)){
+            break;
+        }
+
+        fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+        
+        if(option == id){
+            found_id = 1;
+            continue;
+        }
+            
+        if(id-found_id == 0)
+            fprintf(temp,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+        else
+            fprintf(temp,"\n%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+        
+    }
+
+
+    fclose(arch);
+    fclose(temp);
+
+    arch = load_db("steamDB.txt","w");
+    temp = load_db("temp____steamDB.txt","r");
+
+    while( (a = fgetc(temp)) != EOF )
+        fputc(a, arch);
+    
+    fclose(arch);
+    fclose(temp);
+
+    if(found_id)
+        printf("\nTask concluded.");
+    
+    else
+        printf("\nThe system couldn't find the ID you provided.");
+    
+    remove("temp____steamDB.txt");
+    
+    return 0;
 }
