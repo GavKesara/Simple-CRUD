@@ -1,8 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include"db_functions.h"
-#include"menu.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "db_functions.h"
+#include "menu.h"
 
 #define MAX_CHAR 50
 
@@ -21,6 +21,7 @@ int create(){
     courses course;
     FILE * arch;
 
+    int new_id=get_id();
     arch=load_db("steamDB.txt","a");
 
     setbuf(stdin,NULL);
@@ -32,19 +33,19 @@ int create(){
     printf("Enter the year of the Course: ");
     scanf("%d",&course.year);
 
-    setbug(stdin,NULL);
+    setbuf(stdin,NULL);
     printf("Enter name of the Course: ");
     fgets(course.name_course,MAX_CHAR,stdin);
     fix_formatting(course.name_course);
 
-    setbug(stdin,NULL);
+    setbuf(stdin,NULL);
     printf("Enter name of lecturer: ");
     fgets(course.name_lecturer,MAX_CHAR,stdin);
 
-    if(get_id()==0){
-        fprintf(arch,"%d | %s | %d | %s | %s ",get_id(),course.name_university,course.year,course.name_course,course.name_lecturer);
+    if(new_id==0){
+        fprintf(arch,"%d | %s | %d | %s | %s ",new_id,course.name_university,course.year,course.name_course,course.name_lecturer);
     }else{
-        fprintf(arch,"\n%d | %s | %d | %s | %s ",get_id(),course.name_university,course.year,course.name_course,course.name_lecturer);
+        fprintf(arch,"%d | %s | %d | %s | %s ",new_id,course.name_university,course.year,course.name_course,course.name_lecturer);
     }
 
     fclose(arch);
@@ -52,7 +53,7 @@ int create(){
 }
 
 int read(){
-    clear_terminal;
+    clear_terminal();
     courses course;
     FILE *arch;
 
@@ -70,7 +71,7 @@ int read(){
         return 1;
     }
 
-    prinft("Enter -1 to list all OR Enter a specific ID: ");
+    printf("Enter -1 to list all OR Enter a specific ID: ");
     scanf("%d",&option);
 
     rewind(arch);
@@ -83,7 +84,7 @@ int read(){
                 break;
             }
             fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
-            printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n");
+            printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
     }else{
         while(1){
@@ -96,7 +97,7 @@ int read(){
 
             if(id==option){
                 display_course(option);
-                printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n");
+                printf("ID : %d\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n",id,course.name_university,course.year,course.name_course,course.name_lecturer);
                 break;
             }
         }
@@ -106,7 +107,7 @@ int read(){
 }
 
 int update(){
-    clear_terminal;
+    clear_terminal();
     courses course;
     FILE *arch;
     FILE *temp;
@@ -119,11 +120,14 @@ int update(){
 
     if(arch==NULL){
         printf("The file \"steamDB.txt\" does not exit.");
+        if(temp)fclose(temp);
         return 1;
     }
 
     if(fgetc(arch)==EOF){
         printf("The file is empty.");
+        fclose(temp);
+        fclose(arch);
         remove("temp_______steamDB.txt");
         return 1;
     }
@@ -137,34 +141,41 @@ int update(){
 
     display_update(option);
 
-    while(1){
-        fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
-        if(option == id){
+    while(fscanf(arch,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer)==5){
             found_id=1;
             display_options();
             scanf("%d",&Usr_option);
             switch(Usr_option){
-                case 0:printf("Enter new name of course : ");fgets(&course.name_university,MAX_CHAR,stdin);fix_formatting(course.name_university);break;
-                case 1:printf("Enter new Course year : ");scanf(&course.year);break;
-                case 2:printf("Enter new course name : ");fgets(&course.name_course,MAX_CHAR,stdin);fix_formatting(course.name_course);break;
-                case 3:printf("Enter new lecturer name : ");fgets(&course.name_lecturer,MAX_CHAR,stdin);fix_formatting(course.name_lecturer);break;
+                case 0: printf("Enter new name of course : ");
+                        fgets(course.name_university,MAX_CHAR,stdin);
+                        fix_formatting(course.name_university);
+                        break;
+                case 1: printf("Enter new Course year : ");
+                        scanf("%d",&course.year);
+                        break;
+                case 2: printf("Enter new course name : ");
+                        fgets(course.name_course,MAX_CHAR,stdin);
+                        fix_formatting(course.name_course);
+                        break;
+                case 3: printf("Enter new lecturer name : ");
+                        fgets(course.name_lecturer,MAX_CHAR,stdin);
+                        fix_formatting(course.name_lecturer);
+                        break;
                 default: printf("Enter a correct value.");break;
             }
             if(id == 0)
-                fprintf(temp,"%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
+                fprintf(temp,"%d | %s | %d | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer);
             else
-                fprintf(temp,"\n%d | %s | %d | %s | %s ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer);
-            if(feof(arch))
-                break;
+                fprintf(temp,"\n%d | %s | %d | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
     }
     fclose(arch);
     fclose(temp);
 
     arch = load_db("steamDB.txt","w");
-    temp= load_db("temp_______steamDB.txt","r");
+    temp = load_db("temp_______steamDB.txt","r");
 
-    while(a=fgetc(temp)!=EOF){
+    while((a=fgetc(temp))!=EOF){
         fputc(a,arch);
     }
     

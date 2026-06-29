@@ -40,35 +40,35 @@ void display_menu(){
 }
 
 void display_creating_course(){
-    clear_terminal;
+    clear_terminal();
     printf("--------------------\n");
-    printf('Creating Course\n');
+    printf("Creating Course\n");
     printf("--------------------\n");
 }
 
-void display_listiing_all_courses(){
-    clear_terminal;
+void display_listing_all_courses(){
+    clear_terminal();
     printf("--------------------\n");
     printf("Listing Courses\n");
     printf("--------------------\n");
 }
 
 void display_course(int id){
-    clear_terminal;
+    clear_terminal();
     printf("--------------------\n");
     printf("Printing course with ID : %d\n",id);
     printf("--------------------\n");
 }
 
 void display_update(int id){
-    clear_terminal;
+    clear_terminal();
     printf("-------------------\n");
     printf("Updating Course with ID : %d\n",id);
     printf("-------------------\n");
 }
 
 void display_options(){
-    clear_terminal;
+    clear_terminal();
     printf("Name of University - 0");
     printf("Year of Course - 1");
     printf("Name of Course - 2");
@@ -76,8 +76,8 @@ void display_options(){
 }
 
 void display_delete(int id){
-    clear_terminal;
+    clear_terminal();
     printf("--------------------\n");
-    printf("Deleting Course iwth ID : %d\n",id);
+    printf("Deleting Course with ID : %d\n",id);
     printf("--------------------\n");
 }

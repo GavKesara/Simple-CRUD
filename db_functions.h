@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-FILE * load_db(char *file_name, char *option){
+FILE* load_db(char *file_name, char *option){
     FILE * arch;
     
     arch = fopen(file_name,option);
