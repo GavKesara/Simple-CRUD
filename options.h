@@ -198,6 +198,15 @@ int status(){
         return 1;
     }
     rewind(arch);
+
+    if(fgetc(arch)==EOF){
+        printf("The file \"steamDB.txt\" is empty.");
+        return 1;
+    }
+
+    printf("Enter -1 to list all OR Enter a specific ID: ");
+    scanf("%d",&option);
+
     if(option==-1){
         display_course_status_all();
 
