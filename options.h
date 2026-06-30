@@ -27,6 +27,7 @@ int create(){
     setbuf(stdin,NULL);
     printf("Enter name of University: ");
     fgets(course.name_university,MAX_CHAR,stdin);
+    course.name_university[strcspn(course.name_university,"\n")]='\0';
 
     setbuf(stdin,NULL);
     printf("Enter the year of the Course: ");
@@ -35,14 +36,17 @@ int create(){
     setbuf(stdin,NULL);
     printf("Enter name of the Course: ");
     fgets(course.name_course,MAX_CHAR,stdin);
+    course.name_course[strcspn(course.name_course,"\n")]='\0';
 
     setbuf(stdin,NULL);
     printf("Enter name of lecturer: ");
     fgets(course.name_lecturer,MAX_CHAR,stdin);
+    course.name_lecturer[strcspn(course.name_lecturer,"\n")]='\0';
 
     setbuf(stdin,NULL);
     printf("Enter Status of Course:");
     fgets(course.status,MAX_CHAR,stdin);
+    course.status[strcspn(course.status,"\n")]='\0';
 
     if(new_id==0){
         fprintf(arch,"%d | %s | %d | %s | %s | %s",new_id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
@@ -83,17 +87,14 @@ int read(){
 
         while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
 
-            printf("ID : %d\t\tStatus : %s\nName of Universty : %sYear of Course : %d\n Name of Course : %sName of Lecturer : %s\n\n",id,course.status,course.name_university,course.year,course.name_course,course.name_lecturer);
+            printf("ID : %d\t|\tStatus : %s\n\nName of Universty : %sYear of Course : %d\n Name of Course : %sName of Lecturer : %s\n",id,course.status,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
     }else{
         while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
 
             if(id==option){
                 display_course(option);
-                printf("ID : %d\tStatus : %s\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n",id,course.status,course.name_university,course.year,course.name_course,course.name_lecturer);
-                break;
-            }else{
-                printf("Course ID not found.");
+                printf("ID : %d\t|\tStatus : %s\nName of Universty : %sYear of Course : %d\n Name of Course : %sName of Lecturer : %s\n\n",id,course.status,course.name_university,course.year,course.name_course,course.name_lecturer);
                 break;
             }
         }
@@ -138,7 +139,7 @@ int update(){
     display_update(option);
 
     while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
-        if(id==option)
+        if(id==option){
             found_id=1;
             display_options();
             printf("\n\n\nEnter number to modify : ");
@@ -166,6 +167,7 @@ int update(){
             else
                 fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
         }
+    }
     fclose(arch);
     fclose(temp);
 
@@ -204,11 +206,23 @@ int status(){
 
     if(fgetc(arch)==EOF){
         printf("The file \"steamDB.txt\" is empty.");
+        fclose(arch);
         return 1;
     }
 
+    rewind(arch);
+
     printf("Enter -1 to list all OR Enter a specific ID: ");
-    scanf("%d",&option);
+    if(scanf("%d",&option)!=1){
+        printf("Invalid Input.\n");
+        fclose(arch);
+        return 1;
+    }
+
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+
+    rewind(arch);
 
     if(option == -1){
         display_course_status_all();
@@ -221,9 +235,6 @@ int status(){
 
             if(id==option){
                 printf("ID : %d | Status : %s\n",id,course.status);
-                break;
-            }else{
-                printf("Course ID not found.");
                 break;
             }
         }
