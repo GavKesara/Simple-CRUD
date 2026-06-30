@@ -33,6 +33,10 @@ int main(){
             del();
             break;
             
+        case 's':
+            status();
+            break;
+            
         case 'l':
             return 0;
             break;

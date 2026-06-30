@@ -186,6 +186,38 @@ int update(){
 
 }
 
+int status(){
+    clear_terminal();
+    courses course;
+    FILE *arch;
+
+    int option,id;
+    arch=load_db("steamDB.txt","r");
+    if(arch==NULL){
+        printf("Error file \"steamDB.txt\" does not exist.");
+        return 1;
+    }
+    rewind(arch);
+    if(option==-1){
+        display_course_status_all();
+
+        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
+             printf("ID : %d | Status : %s\n",id,course.status);
+        }
+    }else{
+        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
+
+            if(id==option){
+                display_course(option);
+                printf("ID : %d | Status : %s\n",id,course.status);
+                break;
+            }
+        }
+    }
+    fclose(arch);
+    return 0;
+}
+
 int del(){
     clear_terminal();
     courses course;
