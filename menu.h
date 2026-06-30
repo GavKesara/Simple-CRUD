@@ -49,15 +49,15 @@ void display_creating_course(){
 void display_course_status_all(){
     clear_terminal();
     printf("+------------------+\n");
-    printf("Listing Course Status");
+    printf("Listing Course Status\n");
     printf("+------------------+\n");
 }
 
 void display_course_status(int id){
     clear_terminal();
-    printf("--------------------\n");
-    printf("Listing Course Status with ID : %d",id);
-    printf("--------------------\n");
+    printf("------------------------------------\n");
+    printf("Listing Course Status with ID : %d\n",id);
+    printf("------------------------------------\n");
 }
 
 void display_listing_all_courses(){

@@ -92,6 +92,9 @@ int read(){
                 display_course(option);
                 printf("ID : %d\tStatus : %s\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n",id,course.status,course.name_university,course.year,course.name_course,course.name_lecturer);
                 break;
+            }else{
+                printf("Course ID not found.");
+                break;
             }
         }
     }
@@ -207,18 +210,20 @@ int status(){
     printf("Enter -1 to list all OR Enter a specific ID: ");
     scanf("%d",&option);
 
-    if(option==-1){
+    if(option == -1){
         display_course_status_all();
-
         while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
-             printf("ID : %d | Status : %s\n",id,course.status);
+            printf("ID : %d | Status : %s\n",id,course.status);
         }
     }else{
+        display_course_status(option);
         while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
 
             if(id==option){
-                display_course(option);
                 printf("ID : %d | Status : %s\n",id,course.status);
+                break;
+            }else{
+                printf("Course ID not found.");
                 break;
             }
         }
