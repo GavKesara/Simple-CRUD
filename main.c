@@ -7,15 +7,14 @@ int main(){
     char user_input;
 
     do{
-        display_menu();
+        display_menu(); //returns a menu to the user
 
-        setbuf(stdin,NULL);
-        scanf("%c", &user_input);
-        getchar(); 
+        user_input=getchar(); //takes in a single char input from user
+        clear_buffer();
 
-        user_input = tolower(user_input);
+        user_input = tolower(user_input); //lowers str to avoid case(upper/lower) errors
 
-        switch (user_input)
+        switch (user_input) //switch-case to assign functions to each case
         {
         case 'c':
             create();
@@ -41,11 +40,11 @@ int main(){
             break;
         }
 
-        printf("\n\n\t\tPress Enter to Continue");
+        printf("\n\n\t\tPress Enter to Continue\n");
         setbuf(stdin,NULL);
         while( getchar() != '\n' );
 
-    } while (user_input != 'l');
+    } while (user_input != 'l');//program exit condition
     
     return 0;
 }

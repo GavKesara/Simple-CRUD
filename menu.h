@@ -13,8 +13,8 @@ void clear_terminal(){
 void display_menu(){
     clear_terminal();
 
-    FILE * arch;
-    arch = fopen("logo.txt","r");
+    FILE * file;
+    file = fopen("logo.txt","r");
 
     time_t rawtime;
     struct tm * timeinfo;
@@ -28,15 +28,15 @@ void display_menu(){
 
     while(1){
 
-        if (feof(arch)){
+        if (feof(file)){
             break;
         }
 
-        fgets(menu_line,255,arch);
+        fgets(menu_line,255,file);
 
         printf("%s",menu_line);
     }
-    fclose(arch);
+    fclose(file);
 }
 
 void display_creating_course(){
@@ -44,6 +44,20 @@ void display_creating_course(){
     printf("--------------------\n");
     printf("Creating Course\n");
     printf("--------------------\n");
+}
+
+void display_course_status_all(){
+    clear_terminal();
+    printf("+------------------+\n");
+    printf("Listing Course Status\n");
+    printf("+------------------+\n");
+}
+
+void display_course_status(int id){
+    clear_terminal();
+    printf("------------------------------------\n");
+    printf("Listing Course Status with ID : %d\n",id);
+    printf("------------------------------------\n");
 }
 
 void display_listing_all_courses(){
@@ -74,6 +88,7 @@ void display_options(){
     printf("Year of Course - 1\n");
     printf("Name of Course - 2\n");
     printf("Name of Lecturer - 3\n");
+    printf("Status of Course - 4\n");
     printf("+---------------------+\n");
 }
 
