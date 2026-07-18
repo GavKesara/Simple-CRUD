@@ -75,18 +75,19 @@ int read(){
 
     printf("Enter -1 to list all OR Enter a specific ID: ");
     scanf("%d",&option);
+    clear_buffer();
 
     rewind(arch);
 
     if(option == -1){
         display_listing_all_courses();
 
-        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
+        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n]",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
 
             printf("ID : %d\t|\tStatus : %s\n\nName of Universty : %s\nYear of Course : %d\nName of Course : %s\nName of Lecturer : %s\n",id,course.status,course.name_university,course.year,course.name_course,course.name_lecturer);
         }
     }else{
-        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
+        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n]",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
 
             if(id==option){
                 display_course(option);
