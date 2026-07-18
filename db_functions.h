@@ -4,11 +4,11 @@
 #include <ctype.h>
 
 FILE* load_db(char *file_name, char *option){
-    FILE * arch;
+    FILE * file;
     
-    arch = fopen(file_name,option);
+    file = fopen(file_name,option);
 
-    return arch;
+    return file;
 }
 
 void fix_formatting(char *string){
@@ -21,29 +21,29 @@ void fix_formatting(char *string){
 }
 
 int get_id (){
-    FILE * arch;
+    FILE * file;
 
-    arch = load_db("steamDB.txt","r");
+    file = load_db("steamDB.txt","r");
     
-    if (arch == NULL){
+    if (file == NULL){
         printf("Error loading file steamDB.txt");
-        return 1; //program exit(1)
+        return -1; //program exit(-1)
     }
 
-    int c = fgetc(arch);
+    int c = fgetc(file);
     
     if (c == EOF) {
         return 0; // If the file is empty, it means that there are no games registered. 
     } else {
-        ungetc(c, arch);
+        ungetc(c, file);
     }
 
     char line[255];
     int last_id;
     
-    while(fgets(line,sizeof(line),arch)!=NULL){
+    while(fgets(line,sizeof(line),file)!=NULL){
         last_id = atoi(&line[0]);
     }
-
+    fclose(file);
     return last_id + 1;
 }

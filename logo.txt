@@ -7,7 +7,7 @@
 |                                                             |
 |                      Enter one option:                      |
 |                                                             |
-|    [c]reate [r]ead [u]pdate  [s]tatus  [d]elete [l]eave     |
+|          [c]reate [r]ead [u]pdate [d]elete [l]eave          |
 |                                                             |
 |                                                             |
 | Authors:GavKesara                       All rights reserved.|
