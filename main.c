@@ -41,6 +41,8 @@ int main(){
         }
 
         printf("\n\n\t\tPress Enter to Continue\n");
+        setbuf(stdin,NULL);
+        while( getchar() != '\n' );
 
     } while (user_input != 'l');//program exit condition
     
