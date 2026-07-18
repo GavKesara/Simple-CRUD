@@ -30,6 +30,7 @@ int create(){
 
     printf("Enter the year of the Course: ");
     scanf("%d",&course.year);
+    clear_buffer();
 
     printf("Enter name of the Course: ");
     fgets(course.name_course,MAX_CHAR,stdin);

@@ -10,6 +10,7 @@ int main(){
         display_menu(); //returns a menu to the user
 
         user_input=getchar(); //takes in a single char input from user
+        clear_buffer();
 
         user_input = tolower(user_input); //lowers str to avoid case(upper/lower) errors
 

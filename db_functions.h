@@ -47,3 +47,8 @@ int get_id (){
     fclose(file);
     return last_id + 1;
 }
+
+void clear_buffer(){
+    int c;
+    while((c=getchar())!='\n' && c!=EOF);
+}
