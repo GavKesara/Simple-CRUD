@@ -31,6 +31,10 @@ int main(){
         case 'd':
             del();
             break;
+
+        case 's':
+            update_status();
+            break;
             
         case 'l':
             return 0;

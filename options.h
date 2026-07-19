@@ -100,7 +100,7 @@ int read(){
     return 0;
 }
 
-int update_status(int id){
+int update_status(){
     clear_terminal();
     courses course;
     FILE *arch;
@@ -112,10 +112,16 @@ int update_status(int id){
     arch=load_db("steamDB.txt","r");
     temp=load_db("temp_______steamDB.txt","w");
 
+    if(temp=NULL){
+        printf("The file \"temp_______steamDB.txt\" does not exist.");
+        return -1;
+    }
     if(arch==NULL){
-        printf("The file \"steamDB.txt\" does not exit.");
-        if(temp)fclose(temp);
-        return 1;
+        printf("The file \"steamDB.txt\" does not exist.");
+        if(temp!=NULL){
+            remove("temp_______steamDB.txt");
+        }
+        return -1;
     }
 
     if(fgetc(arch)==EOF){
@@ -123,11 +129,15 @@ int update_status(int id){
         fclose(temp);
         fclose(arch);
         remove("temp_______steamDB.txt");
-        return 1;
+        return -1;
     }
+    int id;
+    printf("Enter id to modify Status : ");
+    scanf("%s",&option);
+    clear_buffer();
 
     rewind(arch);   
-    while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
+    while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer,&course.status)==6){
         if(id==option){
             found_id=1;
             printf("Enter new Status of Course :");
@@ -147,7 +157,7 @@ int update_status(int id){
     arch = load_db("steamDB.txt","w");
     temp = load_db("temp_______steamDB.txt","r");
 
-    while((a=fgetc(temp))!=EOF){
+    while((a=fgetc(temp))!=EOF){ //writes data from temp into steamDB
         fputc(a,arch);
     }
     
@@ -172,13 +182,13 @@ int update(){
     int option,id,a,found_id=0;
     int Usr_option;
 
-    arch=load_db("steamDB.txt","r");
-    temp=load_db("temp_______steamDB.txt","w");
+    arch=load_db("steamDB.txt","r"); //opens file stream 
+    temp=load_db("temp_______steamDB.txt","w"); //create new temp file
 
     if(arch==NULL){
         printf("The file \"steamDB.txt\" does not exit.");
         if(temp)fclose(temp);
-        return 1;
+        return -1; //exit with error(-1)
     }
 
     if(fgetc(arch)==EOF){
@@ -186,39 +196,41 @@ int update(){
         fclose(temp);
         fclose(arch);
         remove("temp_______steamDB.txt");
-        return 1;
+        return -1; //exit with error(-1)
     }
 
     rewind(arch);
 
     printf("Enter the specific ID you want to modify : ");
     scanf("%d",&option);
-    setbuf(stdin,NULL);
-    fflush(stdin);
-
-    display_update(option);
+    clear_buffer();
 
     while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
         if(id==option){
             found_id=1;
-            display_options();
+            display_options(option);
             printf("\n\n\nEnter number to modify : ");
             scanf("%d",&Usr_option);
+            clear_buffer(); //clears problem of /n being read into fgets
             switch(Usr_option){
                 case 0: printf("Enter new name of course : ");
                         fgets(course.name_university,MAX_CHAR,stdin);
+                        course.name_university[strcspn(course.name_university,"\n")]='/0';
                         break;
                 case 1: printf("Enter new Course year : ");
                         scanf("%d",&course.year);
                         break;
                 case 2: printf("Enter new course name : ");
                         fgets(course.name_course,MAX_CHAR,stdin);
+                        course.name_course[strcspn(course.name_course,"\n")]='\0';
                         break;
                 case 3: printf("Enter new lecturer name : ");
                         fgets(course.name_lecturer,MAX_CHAR,stdin);
+                        course.name_lecturer[strcspn(course.name_course,'\n')]='\0';
                         break;
                 case 4: printf("Enter new Status : ");
                         fgets(course.status,MAX_CHAR,stdin);
+                        course.status[strcspn,'\n']='\0';
                         break;
                 default: printf("Enter a correct value.");break;
             }
@@ -235,7 +247,7 @@ int update(){
     arch = load_db("steamDB.txt","w");
     temp = load_db("temp_______steamDB.txt","r");
 
-    while((a=fgetc(temp))!=EOF){
+    while((a=fgetc(temp))!=EOF){ //puts data in temp to arch
         fputc(a,arch);
     }
     
@@ -250,66 +262,6 @@ int update(){
     remove("temp_______steamDB.txt");
     return 0;
 
-}
-
-int status(){
-    clear_terminal();
-    courses course;
-    FILE *arch;
-
-    int option,id,user_int;
-    arch=load_db("steamDB.txt","r");
-    if(arch==NULL){
-        printf("Error file \"steamDB.txt\" does not exist.");
-        return 1;
-    }
-    rewind(arch);
-
-    if(fgetc(arch)==EOF){
-        printf("The file \"steamDB.txt\" is empty.");
-        fclose(arch);
-        return 1;
-    }
-
-    rewind(arch);
-
-    printf("Enter -1 to list all OR Enter a specific ID: ");
-    if(scanf("%d",&option)!=1){
-        printf("Invalid Input.\n");
-        fclose(arch);
-        return 1;
-    }
-
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-
-    rewind(arch);
-
-    if(option == -1){
-        display_course_status_all();
-        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
-            printf("ID : %d | Status : %s\n",id,course.status);
-        }
-    }else{
-        display_course_status(option);
-        while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
-
-            if(id==option){
-                printf("ID : %d | Status : %s\n",id,course.status);
-
-                printf("Do you want to update courses(Y/n): ");
-                scanf("%c",&user_int);
-                user_int=tolower(user_int);
-                if(user_int=='y'){
-                    update();
-                }
-                break;
-            }
-        }
-    }
-
-    fclose(arch);
-    return 0;
 }
 
 int del(){
