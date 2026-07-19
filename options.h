@@ -133,14 +133,14 @@ int update_status(){
     }
     int id;
     printf("Enter id to modify Status : ");
-    scanf("%s",&option);
+    scanf("%d",&option);
     clear_buffer();
 
     rewind(arch);   
     while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer,&course.status)==6){
         if(id==option){
             found_id=1;
-            printf("Enter new Status of Course :");
+            printf("Enter new Status of Course : ");
             fgets(course.status,MAX_CHAR,stdin);
             course.status[strcspn(course.status,"\n")]='\0';
 
@@ -215,7 +215,7 @@ int update(){
             switch(Usr_option){
                 case 0: printf("Enter new name of course : ");
                         fgets(course.name_university,MAX_CHAR,stdin);
-                        course.name_university[strcspn(course.name_university,"\n")]='/0';
+                        course.name_university[strcspn(course.name_university,"\n")]='\0';
                         break;
                 case 1: printf("Enter new Course year : ");
                         scanf("%d",&course.year);
@@ -226,19 +226,19 @@ int update(){
                         break;
                 case 3: printf("Enter new lecturer name : ");
                         fgets(course.name_lecturer,MAX_CHAR,stdin);
-                        course.name_lecturer[strcspn(course.name_course,'\n')]='\0';
+                        course.name_lecturer[strcspn(course.name_course,"\n")]='\0';
                         break;
                 case 4: printf("Enter new Status : ");
                         fgets(course.status,MAX_CHAR,stdin);
-                        course.status[strcspn,'\n']='\0';
+                        course.status[strcspn(course.status,"\n")]='\0';
                         break;
                 default: printf("Enter a correct value.");break;
             }
-            if(id == 0 || (id==1 && found_id && option==0)){
-                fprintf(temp,"%d | %s | %d | %s | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
-            }else{
-                fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
-            }
+        }
+        if(id == 0 || (id==1 && found_id && option==0)){
+            fprintf(temp,"%d | %s | %d | %s | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
+         }else{
+             fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);            
         }
     }
     fclose(arch);
