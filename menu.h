@@ -74,21 +74,17 @@ void display_course(int id){
     printf("--------------------\n");
 }
 
-void display_update(int id){
+void display_options(int id){
     clear_terminal();
-    printf("-------------------\n");
+    printf("-----------------------------------\n");
     printf("Updating Course with ID : %d\n",id);
-    printf("-------------------\n");
-}
-
-void display_options(){
-    clear_terminal();
+    printf("-----------------------------------\n");
     printf("+---------------------+\n");
-    printf("Name of University - 0\n");
-    printf("Year of Course - 1\n");
-    printf("Name of Course - 2\n");
-    printf("Name of Lecturer - 3\n");
-    printf("Status of Course - 4\n");
+    printf("Name of University\t- 0\n");
+    printf("Year of Course\t\t- 1\n");
+    printf("Name of Course\t\t- 2\n");
+    printf("Name of Lecturer\t- 3\n");
+    printf("Status of Course\t- 4\n");
     printf("+---------------------+\n");
 }
 
