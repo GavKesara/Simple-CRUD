@@ -20,11 +20,11 @@ int create(){
     display_creating_course(); //display create course template
     courses course;
     FILE * arch;
-
     int new_id=get_id(); //gets id.
+     
     arch=load_db("steamDB.txt","a");//opens file stream
 
-    printf("Enter name of University: ");
+    printf("\nEnter name of University: ");
     fgets(course.name_university,MAX_CHAR,stdin);
     course.name_university[strcspn(course.name_university,"\n")]='\0';
 
@@ -143,19 +143,13 @@ int update_status(){
             printf("Enter new Status of Course : ");
             fgets(course.status,MAX_CHAR,stdin);
             course.status[strcspn(course.status,"\n")]='\0';
-
-            if(id == 0 || (id==1 && found_id && option==0)){
-                fprintf(temp,"%d | %s | %d | %s | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
-            }else{
-                fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
-            }
+        }
+        if(id == 0 || (id==1 && found_id && option==0)){
+            fprintf(temp,"%d | %s | %d | %s | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
+        }else{
+            fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
         }
     }
-    fclose(arch);
-    fclose(temp);
-
-    arch = load_db("steamDB.txt","w");
-    temp = load_db("temp_______steamDB.txt","r");
 
     while((a=fgetc(temp))!=EOF){ //writes data from temp into steamDB
         fputc(a,arch);
@@ -237,8 +231,8 @@ int update(){
         }
         if(id == 0 || (id==1 && found_id && option==0)){
             fprintf(temp,"%d | %s | %d | %s | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
-         }else{
-             fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);            
+        }else{
+            fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);            
         }
     }
     fclose(arch);
@@ -290,6 +284,7 @@ int del(){
 
     printf("Enter the item ID: ");
     scanf("%d", &option);
+    clear_buffer();
 
     display_delete(option);
 
