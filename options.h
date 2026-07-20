@@ -112,7 +112,7 @@ int update_status(){
     arch=load_db("steamDB.txt","r");
     temp=load_db("temp_______steamDB.txt","w");
 
-    if(temp=NULL){
+    if(temp==NULL){
         printf("The file \"temp_______steamDB.txt\" does not exist.");
         return -1;
     }
@@ -137,12 +137,11 @@ int update_status(){
     clear_buffer();
 
     rewind(arch);   
-    while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,&course.name_university,&course.year,&course.name_course,&course.name_lecturer,&course.status)==6){
+    while(fscanf(arch,"%d | %[^|] | %d | %[^|] | %[^|] | %[^\n] ",&id,course.name_university,&course.year,course.name_course,course.name_lecturer,course.status)==6){
         if(id==option){
             found_id=1;
             printf("Enter new Status of Course : ");
             fgets(course.status,MAX_CHAR,stdin);
-            course.status[strcspn(course.status,"\n")]='\0';
         }
         if(id == 0 || (id==1 && found_id && option==0)){
             fprintf(temp,"%d | %s | %d | %s | %s | %s ",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
@@ -153,11 +152,12 @@ int update_status(){
     fclose(arch);
     fclose(temp);
 
+    arch=load_db("steamDB.txt","w");
+    temp=load_db("temp_______steamDB.txt","r");
+
     while((a=fgetc(temp))!=EOF){ //writes data from temp into steamDB
         fputc(a,arch);
     }
-    load_db("steamDB.txt","w");
-    load_db("temp_______steamDB.txt","r");
 
     fclose(arch);
     fclose(temp);
@@ -183,9 +183,14 @@ int update(){
     arch=load_db("steamDB.txt","r"); //opens file stream 
     temp=load_db("temp_______steamDB.txt","w"); //create new temp file
 
+    if(temp==NULL){
+        printf("Error creating temp file.");
+        return -1;
+    }
+
     if(arch==NULL){
         printf("The file \"steamDB.txt\" does not exit.");
-        if(temp)fclose(temp);
+        if(temp!=NULL)fclose(temp);
         return -1; //exit with error(-1)
     }
 
@@ -258,7 +263,7 @@ int update(){
     }else{
         printf("\nThe system couldn't find the id you provided.");
     }
-    //remove("temp_______steamDB.txt");
+    remove("temp_______steamDB.txt");
     return 0;
 
 }
