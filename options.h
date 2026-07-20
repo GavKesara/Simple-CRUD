@@ -150,11 +150,15 @@ int update_status(){
             fprintf(temp,"\n%d | %s | %d | %s | %s | %s",id,course.name_university,course.year,course.name_course,course.name_lecturer,course.status);
         }
     }
+    fclose(arch);
+    fclose(temp);
 
     while((a=fgetc(temp))!=EOF){ //writes data from temp into steamDB
         fputc(a,arch);
     }
-    
+    load_db("steamDB.txt","w");
+    load_db("temp_______steamDB.txt","r");
+
     fclose(arch);
     fclose(temp);
 
@@ -213,6 +217,7 @@ int update(){
                         break;
                 case 1: printf("Enter new Course year : ");
                         scanf("%d",&course.year);
+                        clear_buffer();
                         break;
                 case 2: printf("Enter new course name : ");
                         fgets(course.name_course,MAX_CHAR,stdin);
@@ -237,23 +242,23 @@ int update(){
     }
     fclose(arch);
     fclose(temp);
-
-    arch = load_db("steamDB.txt","w");
-    temp = load_db("temp_______steamDB.txt","r");
+    
+    arch=load_db("steamDB.txt","w");
+    temp=load_db("temp_______steamDB.txt","r");
 
     while((a=fgetc(temp))!=EOF){ //puts data in temp to arch
         fputc(a,arch);
     }
-    
-    fclose(arch);
+
     fclose(temp);
+    fclose(arch);
 
     if(found_id){
         printf("\nTask Concluded.");
     }else{
         printf("\nThe system couldn't find the id you provided.");
     }
-    remove("temp_______steamDB.txt");
+    //remove("temp_______steamDB.txt");
     return 0;
 
 }
