@@ -230,7 +230,7 @@ int update(){
                         break;
                 case 3: printf("Enter new lecturer name : ");
                         fgets(course.name_lecturer,MAX_CHAR,stdin);
-                        course.name_lecturer[strcspn(course.name_course,"\n")]='\0';
+                        course.name_lecturer[strcspn(course.name_lecturer,"\n")]='\0';
                         break;
                 case 4: printf("Enter new Status : ");
                         fgets(course.status,MAX_CHAR,stdin);
